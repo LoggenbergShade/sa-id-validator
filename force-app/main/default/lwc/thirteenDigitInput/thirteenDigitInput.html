@@ -1,18 +1,24 @@
 <!--
-  @description       : HTML template for a Lightning Web Component that validates a 13-digit South African Identification Number. It includes an input field, error handling, and success messages.
-  @author            : Shadé Loggenberg
-  @last modified on  : 03-25-2026
+  @description       : 
+  @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+  @group             : 
+  @last modified on  : 03-26-2026
   @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 -->
 <template>
-  <div class="slds-form-element"> <!-- Standard SF styling -->
-    <label class="slds-form-element__label"> <!-- Label for the input field -->
-      <abbr class="slds-required">*</abbr> 
+
+  <div class="slds-form-element slds-is-relative"> 
+    
+    <lightning-spinner if:true={isLoading} alternative-text="Loading" size="small"></lightning-spinner>
+
+    <label class="slds-form-element__label"> <abbr class="slds-required">*</abbr> 
       13 Digit South African Identification Number:
     </label>
-    <div class="slds-form-element__control"> <!-- Required input field, wrapped for styling -->
+    
+    <div class="slds-form-element__control"> 
       <input 
-        type="number"
+        type="text"
+        inputmode="numeric"
         class="slds-input"
         placeholder="Enter ID Number Here"
         value={inputValue}
@@ -24,12 +30,57 @@
       />
     </div>
 
-    <!--Error/handling container, based on {error} property defined in JS-->
-    <div if:true={error} class="slds-form-element__help error-message"> <!-- If true, error message -->
+    <div if:true={error} class="slds-form-element__help error-message" style="color: var(--slds-c-text-color-error);"> 
       {error}
     </div>
-    <div if:true={isValid} class="slds-form-element__help success-message"> <!-- If false, success message -->
-      Success, valid ID Number entered
+    <div if:true={isValid} class="slds-form-element__help success-message" style="color: var(--slds-c-text-color-success);"> 
+      Success, valid ID Number entered.
     </div>
+
+    <div class="slds-m-top_medium slds-box slds-theme_shade slds-p-around_small" style="border-left: 4px solid var(--slds-c-button-brand-color-background, #0176d3);">
+      <lightning-input 
+        type="checkbox" 
+        required
+        label="I accept the Terms and Conditions for processing my ID Number." 
+        checked={acceptedTerms}
+        onchange={handleTermsChange}>
+      </lightning-input>
+    </div>
+
+    <div class="slds-m-top_small">
+      <lightning-button 
+        label="Search" 
+        variant="brand" 
+        onclick={handleSearch} 
+        disabled={isSearchDisabled}>
+      </lightning-button>
+    </div>
+
+    <div if:true={nextBirthdayMessage} class="slds-m-top_large slds-text-heading_small" style="color: var(--slds-c-text-color-success); font-weight: bold;">
+      {nextBirthdayMessage}
+    </div>
+
+    <div if:true={hasHolidays} class="slds-m-top_large slds-box slds-theme_default">
+      <p class="slds-text-title_caps slds-m-bottom_medium slds-text-color_weak">Birthday Week Agenda</p>
+      
+      <ul class="slds-m-left_x-small">
+        <template for:each={holidays} for:item="event">
+          <li key={event.id} class="slds-m-bottom_medium slds-media slds-media_center">
+            <div class="slds-media__figure">
+              <lightning-icon icon-name={event.iconName} size="medium"></lightning-icon>
+            </div>
+            <div class="slds-media__body">
+              <div class="slds-text-heading_small slds-text-color_default">
+                <strong>{event.name}</strong>
+              </div>
+              <div class="slds-text-color_weak slds-m-top_xxx-small">
+                {event.date} &bull; <em>{event.contextText}</em>
+              </div>
+            </div>
+          </li>
+        </template>
+      </ul>
+    </div>
+
   </div>
 </template>

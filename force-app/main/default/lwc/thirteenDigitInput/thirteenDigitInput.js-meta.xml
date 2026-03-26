@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>66.0</apiVersion>
-    <description>LWC component that accepts input in a 13-digit number field with validation</description>
+    <description>LWC component that accepts input in a SA ID number value, includes validation and a search function</description>
     <isExposed>true</isExposed>
     <targets>
         <target>lightning__AppPage</target>
@@ -11,7 +11,7 @@
     </targets>
     <targetConfigs>
         <targetConfig targets="lightning__AppPage,lightning__RecordPage,lightning__HomePage">
-            <property name="inputValue" type="String" label="Initial Value" description="Initial value for the 13-digit field" />
+            <property name="inputValue" type="String" label="Initial Value" description="Initial value for the ID Number field" />
         </targetConfig>
     </targetConfigs>
 </LightningComponentBundle>
