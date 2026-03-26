@@ -1,0 +1,35 @@
+<!--
+  @description       : HTML template for a Lightning Web Component that validates a 13-digit South African Identification Number. It includes an input field, error handling, and success messages.
+  @author            : Shadé Loggenberg
+  @last modified on  : 03-25-2026
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+-->
+<template>
+  <div class="slds-form-element"> <!-- Standard SF styling -->
+    <label class="slds-form-element__label"> <!-- Label for the input field -->
+      <abbr class="slds-required">*</abbr> 
+      13 Digit South African Identification Number:
+    </label>
+    <div class="slds-form-element__control"> <!-- Required input field, wrapped for styling -->
+      <input 
+        type="number"
+        class="slds-input"
+        placeholder="Enter ID Number Here"
+        value={inputValue}
+        onchange={handleChange}
+        oninput={handleInput}
+        pattern="\d{13}"
+        minlength="13"
+        maxlength="13"
+      />
+    </div>
+
+    <!--Error/handling container, based on {error} property defined in JS-->
+    <div if:true={error} class="slds-form-element__help error-message"> <!-- If true, error message -->
+      {error}
+    </div>
+    <div if:true={isValid} class="slds-form-element__help success-message"> <!-- If false, success message -->
+      Success, valid ID Number entered
+    </div>
+  </div>
+</template>

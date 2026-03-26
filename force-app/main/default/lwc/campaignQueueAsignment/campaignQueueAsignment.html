@@ -1,0 +1,43 @@
+<!--
+  @description       : 
+  @author            : Shade Loggenberg
+  @group             : 
+  @last modified on  : 03-23-2026
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+-->
+<template>
+    <!-- Show warning if not on a record page -->
+    <template if:false={isRecordPage}>
+        <lightning-card title="🔀 Assigned Omni-Channel Queues">
+            <div class="slds-p-around_medium slds-text-align_center">
+                <p>This component must be used on a Campaign record page.</p>
+            </div>
+        </lightning-card>
+    </template>
+
+    <!-- Show table if recordId exists and data found -->
+    <template if:true={hasData}>
+        <lightning-card title="🔀 Assigned Omni-Channel Queues">
+            <lightning-datatable
+                key-field="campaignName"
+                data={data}
+                columns={columns}
+                hide-checkbox-column>
+            </lightning-datatable>
+        </lightning-card>
+    </template>
+
+    <!-- Show message if record page but no queue mapping exists -->
+    <template if:true={isRecordPage}>
+        <template if:false={hasData}>
+            <lightning-card title="🔀 Assigned Omni-Channel Queues">
+                <div class="slds-p-around_medium slds-text-align_center">
+                    <p> ⚠️ No queue is currently assigned to this campaign.</p>
+                    <p class="slds-text-color_weak">
+                        Please contact your Salesforce administrator to configure Omni-Channel routing.
+                    </p>
+                </div>
+            </lightning-card>
+        </template>
+    </template>
+</template>

@@ -1,0 +1,75 @@
+<!--
+  @description       : 
+  @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+  @group             : 
+  @last modified on  : 03-24-2026
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+-->
+<template>
+    <lightning-card title="Routing Overview">
+
+        <!-- Routing Config Cards -->
+        <template if:true={hasConfigs}>
+            <template for:each={routingConfigs} for:item="config">
+                <div key={config.Id} class="slds-card slds-m-around_small slds-p-around_small">
+
+                    <h3 class="slds-text-heading_small">{config.Name}</h3>
+
+                    <!-- Entry Criteria -->
+                    <div class="slds-m-top_small">
+                        <p class="section-title">Entry Criteria</p>
+
+                        <!-- Move Key Account & Lifecycle Stage to top -->
+                        <p>Key Account: {config.Is_Key_Account__c}</p>
+                        <p>Lifecycle Stage: {config.Current_Lifecycle_Stage__c} 
+                             </p>
+                        <p> </p>
+                        <!-- Score -->
+                        <p>Score: {config.CM_Minimum_Score__c} → {config.CM_Maximum_Score__c}</p>
+                        <p>Category: {config.CM_Scoring_Category__c}</p>
+                        <p>Google Reviews: {config.High_Volume_Google_Reviews__c}</p>
+
+                        <!-- Products Owned -->
+                        <p>Products Owned ({config.Products_Owned_Match_Mode__c}): {config.Products_Owned__c}</p>
+
+                        <!-- Services In Use -->
+                        <p>Services ({config.Services_Owned_Match_Mode__c}): {config.Services_In_Use__c}</p>
+                    </div>
+
+                    <!-- Win Criteria -->
+                    <div class="slds-m-top_small">
+                        <p class="section-title">Win Criteria</p>
+
+                        <p>Product Uptake ({config.Products_Uptake_Match_Mode__c}): {config.Product_Uptake__c}</p>
+                        <p>Service Uptake ({config.Services_Uptake_Match_Mode__c}): {config.Service_Uptake__c}</p>
+                    </div>
+
+                </div>
+            </template>
+        </template>
+
+        <template if:false={hasConfigs}>
+            <p class="slds-p-around_small">No active routing configurations found.</p>
+        </template>
+
+        <!-- Campaign Level Rerouting Settings (Moved below configs) -->
+        <template if:true={campaignSettings}>
+            <div class="slds-box slds-m-around_small">
+                <h3 class="slds-text-heading_small">Rerouting Settings</h3>
+
+                <p><b>Route via Omni:</b> {campaignSettings.Route_Members_via_OmniChannel__c}</p>
+
+                <p><b>Reroute Organic:</b> {campaignSettings.Reroute_Organic_Conversions__c}</p>
+                <p if:true={campaignSettings.Reroute_Organic_Conversion_to_Campaign__r}>
+                    → {campaignSettings.Reroute_Organic_Conversion_to_Campaign__r.Name}
+                </p>
+
+                <p><b>Reroute Stale:</b> {campaignSettings.Reroute_Stale_Members__c}</p>
+                <p if:true={campaignSettings.Reroute_Stale_Members_to_Campaign__r}>
+                    → {campaignSettings.Reroute_Stale_Members_to_Campaign__r.Name}
+                </p>
+            </div>
+        </template>
+
+    </lightning-card>
+</template>
